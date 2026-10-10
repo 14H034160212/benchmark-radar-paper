@@ -20,6 +20,7 @@ EXPECTED_AUTHORS = {
     "Junkai Wang": ["Tsinghua University"],
     "Wanghan Xu": ["Shanghai Jiao Tong University"],
     "Songyuanyi Lu": ["The University of Hong Kong"],
+    "Rudy Mizrahi Celekli": ["Gradia"],
     "Lin Shi": ["Cornell Tech"],
 }
 LATEXML_NS = {"ltx": "http://dlmf.nist.gov/LaTeXML"}
