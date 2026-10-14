@@ -177,7 +177,7 @@ Benchmark Radar complements these methods by making benchmark records, available
 
 \section{System and Methods}
 
-\subsection{System Overview and Daily Discovery}
+\subsection{System Overview}
 
 Benchmark Radar adapts BuilderPulse's daily public-source collection approach \citep{builderpulse}. Figure~\ref{fig:pipeline} separates the benchmark catalog from discovery history. Model reports include model cards, technical reports, system cards, and release posts; they contribute through the same record structure as benchmark registries.
 
@@ -203,9 +203,9 @@ Total & \ReportNumber{\ReportCatalogCount} & All four sources, retaining each re
 
 \subsection{Discovery Collection}
 
-Daily discovery observations describe mentions, releases, and updates found across public sources. An observation is one collected record; an artifact is a paper, repository, dataset, release, or page linked by exact identifiers. These objects differ from source-specific benchmark records. We retain their histories alongside the catalog without adding discovery observations to the benchmark total.
+Daily discovery observations describe mentions, releases, and updates found across public sources. An observation is one collected record; an artifact is a paper, repository, dataset, release, or page, and exact identifiers such as DOIs, arXiv IDs, and repository URLs link observations to artifacts. Discovery histories are kept alongside the catalog and do not add to the benchmark total.
 
-Each collection run searches a 48-hour window, records counts and errors by source, removes future-dated rows, and requires healthy core sources before publication. At the cutoff, arXiv \citep{arxivapi}, Hugging Face Hub \citep{huggingfacehub}, and GitHub Search \citep{githubsearchdocs} were the core sources. Across \ReportConnectorCount{} direct connectors and \ReportFirstPartyFeedCount{} first-party feeds, additional routes cover scholarly indexes, dataset hosts, repository releases, and institutional feeds. Appendix~\ref{app:source-inventory} records their cutoff status.
+Each collection run searches a 48-hour window, records counts and errors by source, removes future-dated rows, and requires healthy core sources before publication. At the cutoff, arXiv \citep{arxivapi}, Hugging Face Hub \citep{huggingfacehub}, and GitHub Search \citep{githubsearchdocs} were the core sources. Across \ReportConnectorCount{} direct connectors and \ReportFirstPartyFeedCount{} first-party feeds, additional routes cover scholarly indexes, dataset hosts, repository releases, and institutional feeds. Appendix~\ref{app:operations} records collection settings and display filters, and Appendix~\ref{app:source-inventory} records each source's status at the cutoff.
 
 \RadarFigure
   {pipeline-evaluation.pdf}
@@ -234,23 +234,21 @@ Table~\ref{tab:reader-questions} describes the interfaces. Search and exports re
 
 
 
-\subsection{Preserve Records Before Comparing Measurements}
+\subsection{Record Normalization}
 
 A source record is one benchmark entry from one contributing source. We normalize names, identifiers, artifact links, score observations, model identities, and cited documents into common fields. A record remains in the catalog if a score, date, or citation is absent. Reviewed identity links connect related records while preserving their separate observations and counts.
 
-Daily discovery contributes a different kind of evidence: collected mentions, releases, and updates. Exact identifiers such as DOIs, arXiv IDs, and repository URLs link those observations to artifacts. Discovery observations do not increase the benchmark catalog total. Appendix~\ref{app:operations} records detailed collection settings and display filters; Appendix~\ref{app:source-inventory} records source health at the cutoff.
-
-\subsection{Retrieve Candidates with Their Evidence from the Dashboard or the CLI}
+\subsection{Retrieval and Offline Access}
 
 The same benchmark IDs reach web search, detail pages, dataset exports, and offline clients. Lexical search uses BM25F, a field-weighted word-matching score \citep{robertson2004bm25f}, with bounded boosts for name and phrase matches. Each result exposes matched and missing query words, the fields they occur in, and the score components. Source membership does not change the ranking. A shared query service supplies the CLI and HTTP interfaces with the same response format and local data provenance.
 
-The CLI keeps its own copy of the data. \texttt{benchmark-radar init} downloads the dataset archives and \texttt{benchmark-radar sync} updates them; a local manifest verifies each archive's SHA-256 checksum and records its schema version and provenance. Queries then run without network access, so a search can be repeated against a recorded dataset version. A search covers the normalized source records (\texttt{catalog}), the daily discovery snapshots (\texttt{radar}), or both (\texttt{all}). Filters restrict results by modality, openness, source, and the presence of a paper, repository, or dataset link. \texttt{benchmark-radar serve} answers the same queries on a local HTTP endpoint for programmatic use.
+The CLI keeps a local copy of the data. It downloads checksummed dataset archives, records their schema version and provenance, and then answers queries without network access, so a search can be repeated against a recorded dataset version. A query can target the catalog, the discovery history, or both, and can be filtered by modality, openness, source, and the presence of a paper, repository, or dataset link. A local HTTP endpoint serves the same queries to other programs.
 
-Commands that return results accept \texttt{--json}, which prints a versioned payload holding the ranking explanation above, the matching policy applied, and the version and build date of the local data. The same interface ships as an agent skill (\texttt{npx skills add ktwu01/benchmark-radar}) that states when a request calls for a benchmark query, which queries to run, and how to install the CLI and initialize its data when they are absent. A reader and an agent then work from the same records and the same score components.
+Machine-readable output carries the ranking explanation, the matching policy, and the version and build date of the local data. The same interface is packaged as an agent skill that tells a coding agent when a request calls for a benchmark query, which queries to run, and how to install the client. A reader and an agent therefore work from the same records and score components.
 
 Candidate retrieval precedes suitability judgment. An analyst or agent can try focused query variants, inspect a record's tasks and score settings, and follow its citations. The interface preserves the evidence needed for that review. This paper evaluates catalog and measurement coverage; the contributor case illustrates usage without measuring retrieval accuracy or time saved.
 
-\subsection{Audit the Full Population}
+\subsection{Census Method}
 \label{sec:census-method}
 
 The census starts with every record in the rebuilt catalog index and reads its detail file. It applies no date, score, or interface filter. We count finite numeric score observations once by observation ID. Within each benchmark record, we count scored models by source model ID, preserving separately evaluated configurations, and cited documents by document ID. Repeated observations do not create additional models or documents. The global model registry uses its recorded identity links; per-benchmark model counts are not summed into a global total.
