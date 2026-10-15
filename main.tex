@@ -176,7 +176,7 @@ LLM Stats publishes benchmark descriptions and reported model results \citep{llm
 Model cards and datasheets motivate documenting evaluation conditions and dataset characteristics \citep{mitchell2019modelcards,gebru2021datasheets}. Benchmark Radar retains that information with its citations. Benchmarks such as GPQA \citep{rein2023gpqa}, SWE-bench \citep{jimenez2023swebench}, and SciBench \citep{wang2023scibench} define different tasks. The census measures which evidence each record provides.
 
 \paragraph{Evaluating benchmarks themselves.}
-Recent work examines benchmark saturation, item quality, and the interpretation of aggregate scores. In a systematic study of 60 language model benchmarks, \citet{akhtar2026plateau} define saturation and report that nearly half exhibit it, with prevalence increasing with benchmark age. They associate resilience with expert curation rather than test-data privacy. Sample-level auditing of MMLU, ARC, WinoGrande, HellaSwag, and TruthfulQA identifies within-benchmark variation obscured by aggregate accuracy \citep{siedler2026benchmarks}. A reference-free judging framework assesses conversational-agent benchmarks on consistency, complexity, and policy coverage \citep{koren2026benchmarking}. For safety benchmarks developed for larger models, rankings of smaller models vary with the treatment of ambiguous responses \citep{shaik2026benchmarking}. Inverse-density weighting reduces the influence of benchmark multiplicity on aggregate scores \citep{lin2026balance}. \citet{gilda2026position} argue that evaluation scores should state their evidential scope and validity window, with conservative aggregation when component signals differ in reliability.
+Recent work examines benchmark saturation, item quality, and the interpretation of aggregate scores. In a systematic study of 60 language model benchmarks, \citet{akhtar2026plateau} define saturation and report that nearly half exhibit it, with prevalence increasing with benchmark age. They link resilience more strongly to expert curation than to test-data privacy. Sample-level auditing of MMLU, ARC, WinoGrande, HellaSwag, and TruthfulQA identifies within-benchmark variation obscured by aggregate accuracy \citep{siedler2026benchmarks}. A reference-free judging framework assesses conversational-agent benchmarks on consistency, complexity, and policy coverage \citep{koren2026benchmarking}. For safety benchmarks developed for larger models, rankings of smaller models vary with the treatment of ambiguous responses \citep{shaik2026benchmarking}. Inverse-density weighting reduces the influence of benchmark multiplicity on aggregate scores \citep{lin2026balance}. \citet{gilda2026position} argue that evaluation scores should state their evidential scope and validity window, with conservative aggregation when component signals differ in reliability.
 
 Benchmark Radar complements these methods by making benchmark records, available measurements, and provenance searchable. We used its command-line client to identify candidate papers for this section, supplemented the results with coauthor recommendations, and reviewed the source papers.
 
@@ -208,7 +208,7 @@ Total & \ReportNumber{\ReportCatalogCount} & All four sources, retaining each re
 
 \subsection{Discovery Collection}
 
-Daily discovery observations describe mentions, releases, and updates found across public sources. An observation is one collected record; an artifact is a paper, repository, dataset, release, or page linked by exact identifiers. We retain their histories alongside the catalog.
+Daily discovery observations describe mentions, releases, and updates found across public sources. An observation is one collected record; an artifact is a paper, repository, dataset, release, or page linked by exact identifiers. We retain their histories alongside the catalog and count them separately from benchmark records.
 
 Each collection run searches a 48-hour window, records counts and errors by source, removes future-dated rows, and requires healthy core sources before publication. At the cutoff, arXiv \citep{arxivapi}, Hugging Face Hub \citep{huggingfacehub}, and GitHub Search \citep{githubsearchdocs} were the core sources. Across \ReportConnectorCount{} direct connectors and \ReportFirstPartyFeedCount{} first-party feeds, additional routes cover scholarly indexes, dataset hosts, repository releases, and institutional feeds. Appendix~\ref{app:source-inventory} records their cutoff status.
 
@@ -217,7 +217,7 @@ Each collection run searches a 48-hour window, records counts and errors by sour
   {Two input paths support publication: dated discovery snapshots preserve mention and release evidence, while benchmark registries and model reports populate the shared catalog. Clients use the catalog's stable source-record IDs.}
   {fig:pipeline}
 
-Table~\ref{tab:reader-questions} describes the interfaces. Search and exports retain the full catalog.
+Table~\ref{tab:reader-questions} describes the interfaces. Search and exports retain the full catalog; display filters apply to the current view.
 
 \begin{center}
 \centering\small
@@ -260,9 +260,9 @@ An analyst or agent can try focused query variants, inspect a record's tasks and
 
 The census starts with every record in the rebuilt catalog index and reads its detail file. We count finite numeric score observations once by observation ID. Within each benchmark record, we count scored models by source model ID, preserving separately evaluated configurations, and cited documents by document ID. The global model registry uses its recorded identity links.
 
-Eligibility depends on the measurement a calculation needs. A declared percentage unit, known score direction, and numeric values within 0--100 permit a percentage-scale summary.
+Eligibility depends on the measurement a calculation needs. A declared percentage unit, known score direction, and numeric values within 0--100 permit a percentage-scale summary. The unit must be declared by the source; display multipliers are recorded separately. Comparing two scores also requires matching test versions, prompts, tools, attempts, and evaluators.
 
-Date coverage counts valid recorded benchmark release dates. Score entries retain their own date basis, including model announcements and document publication. Appendix~\ref{app:reproducibility} records the software revision and links to the input hashes, census script, and validation procedure.
+Date coverage counts valid recorded benchmark release dates. Score entries retain their own date basis, including model announcements and document publication; both serve as proxies for the evaluation date. Appendix~\ref{app:reproducibility} records the software revision and links to the input hashes, census script, and validation procedure.
 
 \section{Results}
 \label{sec:results}
@@ -309,7 +309,7 @@ For scored records, Figure~\ref{fig:leaderboard-frontier} lets readers browse by
 
 Most source records carry a capability label. We classify \ReportNumber{\TaxonomyLabelledFromTags} of \ReportNumber{\CensusRecords} records into \TaxonomyLevelOneCount{} top-level domains and \TaxonomyLevelTwoCount{} sub-domains (Figure~\ref{fig:taxonomy-sankey}). Labels come from the publishers' own fields---OpenCompass Hub dimensions, LLM Stats categories, Artificial Analysis categories, and the model-report registry domains. The remaining \TaxonomyUnclassified{} records are LLM Stats community rows whose crawl supplied no description, category, or modality; we record that reason.
 
-Interaction paradigm and input modality are recorded as \emph{facets}: properties held beside a record's domain, so every record carries exactly one Level~1 class and any number of facet values.
+Interaction paradigm and input modality are recorded as \emph{facets}: properties held beside a record's domain, so every record carries exactly one Level~1 class and any number of facet values. One record can count toward several facets.
 
 A benchmark that resolves repository issues is a coding benchmark run as an agent. Of the \TaxonomyAgentic{} agentic records, \TaxonomyAgenticPrimary{} take Agentic \& Tool Use as their Level~1 class and \TaxonomyAgenticCoding{} sit under Coding \& Software Engineering, with the rest spread across \TaxonomyAgenticOtherClasses{} further classes. A scheme with one axis has to choose, and choosing the domain hides those \TaxonomyAgenticCoding{} records from any count of agentic evaluation.
 
@@ -322,14 +322,14 @@ Figure~\ref{fig:taxonomy-trends} puts each of the \CensusReleaseKnown{} records 
 
 \RadarFigure
   {taxonomy-trends.pdf}
-  {Release-year composition of the classified catalog. (A)~The \CensusReleaseKnown{} dated source records by release year and Level~1 domain; the \FindingsMissingRelease{} records without a release date form the hatched column, drawn on the same scale. (B)~Shares of selected domains and facets among each year's dated records, for years with at least \TaxonomyMinYearRecords{} dated records and a source mix near the pooled mix. Panel~A also shows the \TaxonomyExcludedFromShares{} dated records from the other years. Series marked \emph{facet} cross the Level~1 classes.}
+  {Release-year composition of the classified catalog. (A)~The \CensusReleaseKnown{} dated source records by release year and Level~1 domain; the \FindingsMissingRelease{} records without a release date form the hatched column, drawn on the same scale. (B)~Shares of selected domains and facets among each year's dated records, for years with at least \TaxonomyMinYearRecords{} dated records and a source mix near the pooled mix. Panel~A also shows the \TaxonomyExcludedFromShares{} dated records from the other years. Series marked \emph{facet} cross the Level~1 classes and can overlap.}
   {fig:taxonomy-trends}
 
 \subsection{Discovery Coverage Alongside the Catalog}
 
 The daily discovery collection contains \ReportNumber{\ReportObservationCount} observations and \ReportNumber{\ReportArtifactCount} artifacts linked by exact identifiers across \ReportSnapshotCount{} snapshots. \CensusSimulatedSnapshots{} snapshots are simulated historical backfills; their dates describe reconstructed collection windows.
 
-Five discovery source labels account for \ReportNumber{\FindingsTopFiveObservations} of \ReportNumber{\ReportObservationCount} observations (\FindingsTopFiveShare\%). Figure~\ref{fig:source-composition} includes the remaining labels in one aggregate bar. Of the \ReportNumber{\ReportArtifactCount} artifacts, \CensusMultisourceArtifacts{} have observations from multiple sources.
+Five discovery source labels account for \ReportNumber{\FindingsTopFiveObservations} of \ReportNumber{\ReportObservationCount} observations (\FindingsTopFiveShare\%). Figure~\ref{fig:source-composition} includes the remaining labels in one aggregate bar. Source caps and collection failures shape this mix. Of the \ReportNumber{\ReportArtifactCount} artifacts, \CensusMultisourceArtifacts{} have observations from multiple sources. Cross-source matching relies on exact identifiers, so artifacts with missing or inconsistent identifiers stay unmatched.
 
 \RadarFigure[0.92\linewidth]
   {source-composition.pdf}
@@ -342,7 +342,7 @@ Figure~\ref{fig:discovery-trends} complements source coverage with the daily rea
 \RadarLinkedFigure
   {https://benchmark-radar.org/trends/}
   {discovery-trends.png}
-  {Discovery trends through September 7, 2026. Category cards show newly surfaced releases and track updates separately; the bars show daily evidence and attention volume. The visible coverage notice reports failed sources. The image links to the interactive Trends view.}
+  {Discovery trends through September 7, 2026. Category cards show newly surfaced releases and track updates separately; the bars show daily evidence and attention volume. A release can carry several category tags. The visible coverage notice reports failed sources. The image links to the interactive Trends view.}
   {fig:discovery-trends}
 
 \section{Worked Example: Checking Prior Art}
@@ -437,7 +437,7 @@ The following analyses use the same catalog as Section~\ref{sec:results}. They d
 
 \subsection{Cited Documents and Scored Models}
 
-The common document registry contains \ReportNumber{\CensusDocuments} distinct cited documents, attached to \ReportNumber{\CensusDocumentsKnown} of the \ReportNumber{\CensusRecords} benchmark records. \FindingsMissingDocuments{} records have no cited documents. The shared model registry contains \CensusModels{} model identities. Model identifiers are available for every numeric score in all \CensusScored{} scored records, allowing distinct models to be counted within each record.
+The common document registry contains \ReportNumber{\CensusDocuments} distinct cited documents, attached to \ReportNumber{\CensusDocumentsKnown} of the \ReportNumber{\CensusRecords} benchmark records. \FindingsMissingDocuments{} records have no cited documents. The shared model registry contains \CensusModels{} model identities. Model identifiers are available for every numeric score in all \CensusScored{} scored records, allowing distinct models to be counted within each record. For unscored records, this count is unknown.
 
 The Artificial Analysis record for GPQA Diamond contains scores for \FindingsGpqaAAModels{} models and cites \FindingsGpqaAADocuments{} registry page. The Model reports record cites \FindingsGpqaReportsDocuments{} documents and contains \FindingsGpqaReportsScores{} numeric observations for \FindingsGpqaReportsModels{} models.
 
@@ -520,13 +520,13 @@ Total & \ReportNumber{\CensusRecords} & \CensusScored{} & \CensusUnscored{} & \R
 \label{tab:reported-headroom}
 \end{center}
 
-The accompanying \texttt{evidence/catalog-findings.csv} contains one row per benchmark record, with a JSON counterpart retaining detailed evidence. Each scored record has its highest numeric value on the source's native scale and every tied score observation. Units and score direction remain attached to that record. Display multipliers are recorded separately.
+The accompanying \texttt{evidence/catalog-findings.csv} contains one row per benchmark record, with a JSON counterpart retaining detailed evidence. Each scored record has its highest numeric value on the source's native scale and every tied score observation. Units and score direction remain attached to that record; for a lower-is-better metric, the best result is the minimum. Display multipliers are recorded separately.
 
-Percentage headroom is 100 minus a record's highest value, computed when its unit is explicitly percent, its direction is higher-is-better, and its values stay within 0--100. The export records eligibility for every benchmark.
+Percentage headroom is 100 minus a record's highest value, computed when its unit is explicitly percent, its direction is higher-is-better, and its values stay within 0--100. The export records eligibility for every benchmark. Comparing results also requires matching test versions, reasoning budgets, tools, attempts, and evaluators \citep{gebru2021datasheets,mitchell2019modelcards}.
 
 \subsection{Date Evidence Across the Full Catalog}
 
-The date analysis also retains all \ReportNumber{\FindingsRecords} source records. Table~\ref{tab:score-coverage-gaps} separates benchmark release dates from dates attached to numeric observations. A known model announcement date serves as a source-record date proxy.
+The date analysis also retains all \ReportNumber{\FindingsRecords} source records. Table~\ref{tab:score-coverage-gaps} separates benchmark release dates from dates attached to numeric observations. A known model announcement date serves as a source-record date proxy. Both date bases are proxies for the evaluation date.
 
 \begin{center}
 \centering\small
@@ -548,9 +548,9 @@ The exported rows preserve each record's release date and the date basis of its 
 \section{Collection Settings and Display Filters}
 \label{app:operations}
 
-The \datacutoff{} snapshot records \ReportNumber{\FindingsRunFetched} fetched rows and \FindingsRunDeduplicated{} candidates after duplicate removal. Of these, \FindingsRunPublished{} qualified for publication and \FindingsRunRecommended{} met the recommendation threshold. Published evidence retains source URLs, retrieval times, parser versions, identifiers, and payload checksums.
+The \datacutoff{} snapshot records \ReportNumber{\FindingsRunFetched} fetched rows and \FindingsRunDeduplicated{} candidates after duplicate removal. Of these, \FindingsRunPublished{} qualified for publication and \FindingsRunRecommended{} met the recommendation threshold. Published evidence retains source URLs, retrieval times, parser versions, identifiers, and payload checksums. Raw responses and credentials stay private.
 
-Benchmark Frontier, on the Leaderboard tab, requires a numeric score and excludes known pre-2024 benchmarks. It retains scored records with unknown dates or counts through labelled marks, and keeps unverified scales outside Pareto calculations. Its initial score cutoff is 70. The linked score ranking retains its date and numeric-score requirements independently of that cutoff.
+Benchmark Frontier, on the Leaderboard tab, requires a numeric score and excludes known pre-2024 benchmarks. It retains scored records with unknown dates or counts through labelled marks, and keeps unverified scales outside Pareto calculations. Its initial score cutoff is 70. The linked score ranking keeps its own date and numeric-score requirements. Catalog search, exports, and the census use the full population.
 
 A separate priority score for daily recommendations combines relevance (35\%), evidence (20\%), recency (20\%), and adoption (25\%) on a 0--100 scale.
 
@@ -679,7 +679,7 @@ ScienceBoard~\citep{sun2025scienceboard} & \xmark & \cmark & \xmark & Manual & \
 
 This revision uses the \href{https://github.com/ktwu01/benchmark-radar/releases/tag/v0.11.0}{Benchmark Radar v0.11.0 release} (software commit \gitcommit{}), with a discovery cutoff of \datacutoff{}. Registry inputs are the August snapshots recorded in that release. The release archive contains the catalog index, per-benchmark detail records, the document and model registries, discovery observations, and dated snapshots, with a SHA-256 hash for each input.
 
-The catalog census and the document, score, and date analyses are computed from the frozen archive. The software exporter supplies the catalog and discovery figure inputs. The catalog audit validates source-record IDs, score-observation uniqueness, and reconciliation of scored and unscored records; the findings audit computes the document, score, and date analyses. Both retain every source-record ID and record the input hashes. Their check modes recompute the outputs for comparison with the published values.
+The catalog census and the document, score, and date analyses are computed from the frozen archive. The software exporter supplies the catalog and discovery figure inputs. The catalog audit validates source-record IDs, score-observation uniqueness, and reconciliation of scored and unscored records; the findings audit computes the document, score, and date analyses. Both retain every source-record ID and record the input hashes. Their check modes recompute the outputs for comparison with the published values. Capability classification and its time trends come from separate generated inputs outside these checks.
 
 The paper repository's \href{https://github.com/ktwu01/benchmark-radar-paper/blob/44f4146b1f67ba82b9af71d93d80b249b8887e93/README.md\#reproduce-the-papers-numbers}{reproduction guide} identifies the scripts, input hashes, and validation procedure. Table~\ref{tab:access-artifacts} lists the access and citation resources. The project also provides a Citation File Format record \citep{smith2016,katz2021,cff}.
 

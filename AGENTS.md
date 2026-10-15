@@ -89,10 +89,10 @@ waive the questions for a task.
 
 ## Manuscript review
 
-- Never write self-defensive sentences. State what the system does and what the
-  data show; do not argue in advance against a misreading or objection. Delete
-  disclaimers such as "these weights order observations for reading; they do
-  not rank benchmark suitability", "X does not increase the total", "Y must
-  still be checked before comparing", "this does not imply", and "so the rise
-  does not come from the source mix". Real limitations belong in the
-  Limitations section, stated once and plainly.
+- Do not write "X, not Y" or "X does not Y" contrasts aimed at an imagined
+  reader. State what X is. When X has a limit that matters, state the limit as
+  a property of X: "Scores count numeric observations", "Score dates use the
+  model announcement date as a proxy", "Facets overlap, so a record can count
+  toward several". Do not delete the fact; rewrite it in this form.
+- State real limitations once, in the Limitations section, in the same plain
+  form.
