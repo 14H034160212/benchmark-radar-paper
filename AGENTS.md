@@ -68,7 +68,10 @@
 
 ## Manuscript review
 
-- Avoid self-defensive wording. State the method and the result; do not argue
-  in advance against an objection a reader has not raised. Remove sentences such
-  as "the second condition excludes the last, incomplete year" or "so the rise
-  does not come from the source mix" unless a reviewer asked the question.
+- Never write self-defensive sentences. State what the system does and what the
+  data show; do not argue in advance against a misreading or objection. Delete
+  disclaimers such as "these weights order observations for reading; they do
+  not rank benchmark suitability", "X does not increase the total", "Y must
+  still be checked before comparing", "this does not imply", and "so the rise
+  does not come from the source mix". Real limitations belong in the
+  Limitations section, stated once and plainly.
