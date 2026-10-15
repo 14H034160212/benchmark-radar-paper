@@ -253,7 +253,7 @@ The CLI keeps its own copy of the data. \texttt{benchmark-radar init} downloads 
 
 Commands that return results accept \texttt{--json}, which prints a versioned payload holding the ranking explanation above, the matching policy applied, and the version and build date of the local data. The same interface ships as an agent skill (\texttt{npx skills add ktwu01/benchmark-radar}) that states when a request calls for a benchmark query, which queries to run, and how to install the CLI and initialize its data when they are absent. A reader and an agent then work from the same records and the same score components.
 
-An analyst or agent can try focused query variants, inspect a record's tasks and score settings, and follow its citations.
+An analyst or agent can try focused query variants, inspect a record's tasks and score settings, and follow its citations. The interface preserves the evidence needed for that review.
 
 \subsection{Audit the Full Population}
 \label{sec:census-method}
@@ -439,7 +439,7 @@ The following analyses use the same catalog as Section~\ref{sec:results}. They d
 
 The common document registry contains \ReportNumber{\CensusDocuments} distinct cited documents, attached to \ReportNumber{\CensusDocumentsKnown} of the \ReportNumber{\CensusRecords} benchmark records. \FindingsMissingDocuments{} records have no cited documents. The shared model registry contains \CensusModels{} model identities. Model identifiers are available for every numeric score in all \CensusScored{} scored records, allowing distinct models to be counted within each record. For unscored records, this count is unknown.
 
-The Artificial Analysis record for GPQA Diamond contains scores for \FindingsGpqaAAModels{} models and cites \FindingsGpqaAADocuments{} registry page. The Model reports record cites \FindingsGpqaReportsDocuments{} documents and contains \FindingsGpqaReportsScores{} numeric observations for \FindingsGpqaReportsModels{} models.
+Table~\ref{tab:model-document-coverage} compares the three counts for GPQA Diamond. The Artificial Analysis record for GPQA Diamond contains scores for \FindingsGpqaAAModels{} models and cites \FindingsGpqaAADocuments{} registry page. The Model reports record cites \FindingsGpqaReportsDocuments{} documents and contains \FindingsGpqaReportsScores{} numeric observations for \FindingsGpqaReportsModels{} models.
 
 \begin{center}
 \centering\small
@@ -522,7 +522,7 @@ Total & \ReportNumber{\CensusRecords} & \CensusScored{} & \CensusUnscored{} & \R
 
 The accompanying \texttt{evidence/catalog-findings.csv} contains one row per benchmark record, with a JSON counterpart retaining detailed evidence. Each scored record has its highest numeric value on the source's native scale and every tied score observation. Units and score direction remain attached to that record; for a lower-is-better metric, the best result is the minimum. Display multipliers are recorded separately.
 
-Percentage headroom is 100 minus a record's highest value, computed when its unit is explicitly percent, its direction is higher-is-better, and its values stay within 0--100. The export records eligibility for every benchmark. Comparing results also requires matching test versions, reasoning budgets, tools, attempts, and evaluators \citep{gebru2021datasheets,mitchell2019modelcards}.
+Percentage headroom is 100 minus a record's highest value, computed when its unit is explicitly percent, its direction is higher-is-better, and its values stay within 0--100. The export records eligibility for every benchmark. Catalog-wide headroom and recency estimates report their eligible measurement coverage alongside the statistic. Comparing results also requires matching test versions, reasoning budgets, tools, attempts, and evaluators \citep{gebru2021datasheets,mitchell2019modelcards}.
 
 \subsection{Date Evidence Across the Full Catalog}
 
@@ -548,11 +548,11 @@ The exported rows preserve each record's release date and the date basis of its 
 \section{Collection Settings and Display Filters}
 \label{app:operations}
 
-The \datacutoff{} snapshot records \ReportNumber{\FindingsRunFetched} fetched rows and \FindingsRunDeduplicated{} candidates after duplicate removal. Of these, \FindingsRunPublished{} qualified for publication and \FindingsRunRecommended{} met the recommendation threshold. Published evidence retains source URLs, retrieval times, parser versions, identifiers, and payload checksums. Raw responses and credentials stay private.
+The \datacutoff{} snapshot records \ReportNumber{\FindingsRunFetched} fetched rows and \FindingsRunDeduplicated{} candidates after duplicate removal. Of these, \FindingsRunPublished{} qualified for publication and \FindingsRunRecommended{} met the recommendation threshold. These counts describe the discovery run. Published evidence retains source URLs, retrieval times, parser versions, identifiers, and payload checksums. Raw responses and credentials stay private.
 
 Benchmark Frontier, on the Leaderboard tab, requires a numeric score and excludes known pre-2024 benchmarks. It retains scored records with unknown dates or counts through labelled marks, and keeps unverified scales outside Pareto calculations. Its initial score cutoff is 70. The linked score ranking keeps its own date and numeric-score requirements. Catalog search, exports, and the census use the full population.
 
-A separate priority score for daily recommendations combines relevance (35\%), evidence (20\%), recency (20\%), and adoption (25\%) on a 0--100 scale.
+A separate priority score for daily recommendations combines relevance (35\%), evidence (20\%), recency (20\%), and adoption (25\%) on a 0--100 scale. These weights set the reading priority of discovery observations.
 
 \section{Source Inventory and Health}
 \label{app:source-inventory}
@@ -679,7 +679,7 @@ ScienceBoard~\citep{sun2025scienceboard} & \xmark & \cmark & \xmark & Manual & \
 
 This revision uses the \href{https://github.com/ktwu01/benchmark-radar/releases/tag/v0.11.0}{Benchmark Radar v0.11.0 release} (software commit \gitcommit{}), with a discovery cutoff of \datacutoff{}. Registry inputs are the August snapshots recorded in that release. The release archive contains the catalog index, per-benchmark detail records, the document and model registries, discovery observations, and dated snapshots, with a SHA-256 hash for each input.
 
-The catalog census and the document, score, and date analyses are computed from the frozen archive. The software exporter supplies the catalog and discovery figure inputs. The catalog audit validates source-record IDs, score-observation uniqueness, and reconciliation of scored and unscored records; the findings audit computes the document, score, and date analyses. Both retain every source-record ID and record the input hashes. Their check modes recompute the outputs for comparison with the published values. Capability classification and its time trends come from separate generated inputs outside these checks.
+The catalog census and the document, score, and date analyses are computed from the frozen archive. The software exporter supplies the catalog and discovery figure inputs. The catalog audit validates source-record IDs, score-observation uniqueness, and reconciliation of scored and unscored records; the findings audit computes the document, score, and date analyses. Both retain every source-record ID and record the input hashes. Their check modes recompute the outputs for comparison with the published values. Capability classification and its time trends come from separate generated inputs outside these checks. Schematic illustrations, supplied interface screenshots, and manually assembled related-work tables have their provenance described in their captions and accompanying text.
 
 The paper repository's \href{https://github.com/ktwu01/benchmark-radar-paper/blob/44f4146b1f67ba82b9af71d93d80b249b8887e93/README.md\#reproduce-the-papers-numbers}{reproduction guide} identifies the scripts, input hashes, and validation procedure. Table~\ref{tab:access-artifacts} lists the access and citation resources. The project also provides a Citation File Format record \citep{smith2016,katz2021,cff}.
 
