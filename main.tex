@@ -176,7 +176,7 @@ LLM Stats publishes benchmark descriptions and reported model results \citep{llm
 Model cards and datasheets motivate documenting evaluation conditions and dataset characteristics \citep{mitchell2019modelcards,gebru2021datasheets}. Benchmark Radar retains that information with its citations. Benchmarks such as GPQA \citep{rein2023gpqa}, SWE-bench \citep{jimenez2023swebench}, and SciBench \citep{wang2023scibench} define different tasks. The census measures which evidence each record provides.
 
 \paragraph{Evaluating benchmarks themselves.}
-Recent work examines benchmark saturation, item quality, and the interpretation of aggregate scores. In a systematic study of 60 language model benchmarks, \citet{akhtar2026plateau} define saturation and report that nearly half exhibit it, with prevalence increasing with benchmark age. They link resilience more strongly to expert curation than to test-data privacy. Sample-level auditing of MMLU, ARC, WinoGrande, HellaSwag, and TruthfulQA identifies within-benchmark variation obscured by aggregate accuracy \citep{siedler2026benchmarks}. A reference-free judging framework assesses conversational-agent benchmarks on consistency, complexity, and policy coverage \citep{koren2026benchmarking}. For safety benchmarks developed for larger models, rankings of smaller models vary with the treatment of ambiguous responses \citep{shaik2026benchmarking}. Inverse-density weighting reduces the influence of benchmark multiplicity on aggregate scores \citep{lin2026balance}. \citet{gilda2026position} argue that evaluation scores should state their evidential scope and validity window, with conservative aggregation when component signals differ in reliability.
+Recent work examines benchmark saturation, item quality, and the interpretation of aggregate scores. In a systematic study of 60 language model benchmarks, \citet{akhtar2026plateau} define saturation and report that nearly half exhibit it, with prevalence increasing with benchmark age. They find that expert curation affects resilience to saturation, and that public test data has no measurable effect. Sample-level auditing of MMLU, ARC, WinoGrande, HellaSwag, and TruthfulQA identifies within-benchmark variation obscured by aggregate accuracy \citep{siedler2026benchmarks}. A reference-free judging framework assesses conversational-agent benchmarks on consistency, complexity, and policy coverage \citep{koren2026benchmarking}. For safety benchmarks developed for larger models, rankings of smaller models vary with the treatment of ambiguous responses \citep{shaik2026benchmarking}. Inverse-density weighting reduces the influence of benchmark multiplicity on aggregate scores \citep{lin2026balance}. \citet{gilda2026position} argue that evaluation scores should state their evidential scope and validity window, with conservative aggregation when component signals differ in reliability.
 
 Benchmark Radar complements these methods by making benchmark records, available measurements, and provenance searchable. We used its command-line client to identify candidate papers for this section, supplemented the results with coauthor recommendations, and reviewed the source papers.
 
@@ -253,12 +253,12 @@ The CLI keeps its own copy of the data. \texttt{benchmark-radar init} downloads 
 
 Commands that return results accept \texttt{--json}, which prints a versioned payload holding the ranking explanation above, the matching policy applied, and the version and build date of the local data. The same interface ships as an agent skill (\texttt{npx skills add ktwu01/benchmark-radar}) that states when a request calls for a benchmark query, which queries to run, and how to install the CLI and initialize its data when they are absent. A reader and an agent then work from the same records and the same score components.
 
-An analyst or agent can try focused query variants, inspect a record's tasks and score settings, and follow its citations. The interface preserves the evidence needed for that review.
+An analyst or agent can try focused query variants, inspect a record's tasks and score settings, and follow its citations. The interface preserves the evidence needed to judge a candidate's suitability.
 
 \subsection{Audit the Full Population}
 \label{sec:census-method}
 
-The census starts with every record in the rebuilt catalog index and reads its detail file. We count finite numeric score observations once by observation ID. Within each benchmark record, we count scored models by source model ID, preserving separately evaluated configurations, and cited documents by document ID. The global model registry uses its recorded identity links.
+The census starts with every record in the rebuilt catalog index and reads its detail file. We count finite numeric score observations once by observation ID. Within each benchmark record, we count scored models by source model ID, preserving separately evaluated configurations, and cited documents by document ID. The global model count uses the registry's recorded identity links.
 
 Eligibility depends on the measurement a calculation needs. A declared percentage unit, known score direction, and numeric values within 0--100 permit a percentage-scale summary. Percentage units come from the source's own declaration; display multipliers are recorded separately.
 
@@ -307,11 +307,11 @@ For scored records, Figure~\ref{fig:leaderboard-frontier} lets readers browse by
 \subsection{Benchmark Taxonomy Across the Full Catalog}
 \label{sec:taxonomy}
 
-Most source records carry a capability label. We classify \ReportNumber{\TaxonomyLabelledFromTags} of \ReportNumber{\CensusRecords} records into \TaxonomyLevelOneCount{} top-level domains and \TaxonomyLevelTwoCount{} sub-domains (Figure~\ref{fig:taxonomy-sankey}). Labels come from the publishers' own fields---OpenCompass Hub dimensions, LLM Stats categories, Artificial Analysis categories, and the model-report registry domains. The remaining \TaxonomyUnclassified{} records are LLM Stats community rows whose crawl supplied no description, category, or modality; we record that reason.
+Most source records carry a capability label. We classify \ReportNumber{\TaxonomyLabelledFromTags} of \ReportNumber{\CensusRecords} records into \TaxonomyLevelOneCount{} top-level domains and \TaxonomyLevelTwoCount{} sub-domains (Figure~\ref{fig:taxonomy-sankey}). Labels come from the publishers' own fields---OpenCompass Hub dimensions, LLM Stats categories, Artificial Analysis categories, and the model-report registry domains. The remaining \TaxonomyUnclassified{} records are LLM Stats community rows whose crawl supplied no description, category, or modality; the catalog records that as the reason.
 
 Interaction paradigm and input modality are recorded as \emph{facets}: properties held beside a record's domain, so every record carries exactly one Level~1 class and any number of facet values. One record can count toward several facets.
 
-A benchmark that resolves repository issues is a coding benchmark run as an agent. Of the \TaxonomyAgentic{} agentic records, \TaxonomyAgenticPrimary{} take Agentic \& Tool Use as their Level~1 class and \TaxonomyAgenticCoding{} sit under Coding \& Software Engineering, with the rest spread across \TaxonomyAgenticOtherClasses{} further classes. A scheme with one axis has to choose, and choosing the domain hides those \TaxonomyAgenticCoding{} records from any count of agentic evaluation.
+Separating the axes matters: a benchmark that resolves repository issues is a coding benchmark run as an agent. Of the \TaxonomyAgentic{} agentic records, \TaxonomyAgenticPrimary{} take Agentic \& Tool Use as their Level~1 class and \TaxonomyAgenticCoding{} sit under Coding \& Software Engineering, with the rest spread across \TaxonomyAgenticOtherClasses{} further classes. A scheme with one axis has to choose, and choosing the domain hides those \TaxonomyAgenticCoding{} records from any count of agentic evaluation.
 
 \RadarFigure[0.98\linewidth]
   {taxonomy-sankey.pdf}
@@ -520,13 +520,13 @@ Total & \ReportNumber{\CensusRecords} & \CensusScored{} & \CensusUnscored{} & \R
 \label{tab:reported-headroom}
 \end{center}
 
-The accompanying \texttt{evidence/catalog-findings.csv} contains one row per benchmark record, with a JSON counterpart retaining detailed evidence. Each scored record has its highest numeric value on the source's native scale and every tied score observation. Units and score direction remain attached to that record; for a lower-is-better metric, the best result is the minimum. Display multipliers are recorded separately.
+The accompanying \texttt{evidence/catalog-findings.csv} contains one row per benchmark record, with a JSON counterpart retaining detailed evidence. Each scored record has its highest numeric value on the source's native scale and every tied score observation. Units and score direction remain attached to that record; for a lower-is-better metric, the best result is the minimum.
 
 Percentage headroom is 100 minus a record's highest value, computed when its unit is explicitly percent, its direction is higher-is-better, and its values stay within 0--100. The export records eligibility for every benchmark. Catalog-wide headroom and recency estimates report their eligible measurement coverage alongside the statistic. Comparing results also requires matching test versions, reasoning budgets, tools, attempts, and evaluators \citep{gebru2021datasheets,mitchell2019modelcards}.
 
 \subsection{Date Evidence Across the Full Catalog}
 
-Table~\ref{tab:score-coverage-gaps} separates benchmark release dates from dates attached to numeric observations. A known model announcement date serves as a source-record date proxy. Both date bases are proxies for the evaluation date.
+Table~\ref{tab:score-coverage-gaps} separates benchmark release dates from dates attached to numeric observations. Both date bases are proxies for the evaluation date.
 
 \begin{center}
 \centering\small
@@ -550,7 +550,7 @@ The exported rows preserve each record's release date and the date basis of its 
 
 The \datacutoff{} snapshot records \ReportNumber{\FindingsRunFetched} fetched rows and \FindingsRunDeduplicated{} candidates after duplicate removal. Of these, \FindingsRunPublished{} entered the published snapshot and \FindingsRunRecommended{} met the recommendation threshold. These counts describe the discovery run. Published evidence retains source URLs, retrieval times, parser versions, identifiers, and payload checksums. Raw responses and credentials stay private.
 
-Benchmark Frontier, on the Leaderboard tab, requires a numeric score and excludes known pre-2024 benchmarks. It retains scored records with unknown dates or counts through labelled marks, and keeps unverified scales outside Pareto calculations. Its initial score cutoff is 70. The linked score ranking keeps its own date and numeric-score requirements. Catalog search, exports, and the census use the full population.
+Benchmark Frontier, on the Leaderboard tab, requires a numeric score and excludes known pre-2024 benchmarks. It retains scored records with unknown dates or counts through labelled marks, and keeps unverified scales outside Pareto calculations. Its initial score cutoff is 70. The linked score ranking keeps its own date and numeric-score requirements.
 
 A separate priority score for daily recommendations combines relevance (35\%), evidence (20\%), recency (20\%), and adoption (25\%) on a 0--100 scale. These weights set the reading priority of discovery observations.
 
