@@ -160,7 +160,7 @@ Evaluation also matters beyond general-purpose chat. In recommender systems, Tra
 
 Benchmarks differ in the abilities they test. Broad evaluations of knowledge and reasoning include MMLU \citep{hendrycks2021mmlu}, GPQA \citep{rein2023gpqa}, and Humanity's Last Exam \citep{phan2025hle}. Others isolate more specific capabilities: SWE-bench measures whether models can resolve real GitHub issues \citep{jimenez2023swebench}, LiveCodeBench tests code generation with date-based splits to reduce contamination from training data \citep{jain2024livecodebench}, and Terminal-Bench and Long-Horizon-Terminal-Bench test command-line agents on operational tasks \citep{merrill2026terminalbench,li2026long}. The Harbor framework ports more than 80 such benchmarks to a common execution contract so that arbitrary agents can be evaluated against them, and its Harbor-Index curates 82 difficult tasks drawn from 29 of those benchmarks \citep{shi2026harbor,harborframework}. Domain-specific evaluations include FinanceBench for finance and economics \citep{islam2023financebench}, MATH for mathematics \citep{hendrycks2021math}, SciBench for scientific problem solving \citep{wang2023scibench}, LAB-Bench for biology \citep{laurent2024labbench}, and ChemBench for chemistry \citep{mirza2024chembench}. ESM-Bench tests agents' understanding of Earth system model physics and code \citep{wu2026esm}; ResearchClawBench evaluates end-to-end autonomous scientific research \citep{xu2026researchclawbench}; and ASI-Bench examines scientific exploration and execution with progressively less methodological guidance \citep{zhou2026asi}. ScienceIDE converts scientific code repositories into executable, agent-learnable environments for training and evaluating scientific agents \citep{geng2026scienceide}. Benchmark construction is itself being automated: Benchmark Agent builds benchmarks end to end, from query analysis and subtask design to annotation and quality control \citep{xiong2026benchmark}. Their tasks and scoring rules specify which model behaviors count as successful performance.
 
-Finding a benchmark, its dataset or repository, and reports of its use requires searching paper servers, code hosting sites, dataset hubs, vendor releases, blogs, and benchmark catalogs. Existing resources such as LLM Stats, OpenCompass, and Artificial Analysis provide leaderboards, evaluation platforms, and model-analysis views \citep{llmstats2026benchmarks,opencompass2026datasetstatistics,artificialanalysis2026methodology}. Connecting newly released benchmarks to their task materials and later use in model reports can still require consulting several separate resources. Benchmark Radar addresses this gap by combining catalog retrieval with daily discovery, mentions in model reports, and scores with documented evaluation settings and sources.
+Finding a benchmark, its dataset or repository, and reports of its use requires searching paper servers, code hosting sites, dataset hubs, vendor releases, blogs, and benchmark catalogs. Existing resources such as LLM Stats, OpenCompass, and Artificial Analysis provide leaderboards, evaluation platforms, and model-analysis views \citep{llmstats2026benchmarks,opencompass2026datasetstatistics,artificialanalysis2026methodology}. Connecting newly released benchmarks to their task materials and later use in model reports requires consulting several separate resources. Benchmark Radar addresses this gap by combining catalog retrieval with daily discovery, mentions in model reports, and scores with documented evaluation settings and sources.
 
 Benchmark Radar gathers benchmark-related artifacts from public sources, groups observations with matching identifiers, and exposes a searchable index with source labels, dates, benchmark mentions, and scores (Figure~\ref{fig:abstract}). We present the search system, describe the collection and ranking methods needed to reproduce its outputs, and examine benchmark coverage, documentation and scored-model coverage across all catalog sources, source concentration, and gaps in evaluation settings.\footnote{Source code: \url{https://github.com/ktwu01/benchmark-radar}.}
 
@@ -214,7 +214,7 @@ Each collection run searches a 48-hour window, records counts and errors by sour
 
 \RadarFigure
   {pipeline-evaluation.pdf}
-  {Two input paths support publication: dated discovery snapshots preserve mention and release evidence, while benchmark registries and model reports populate the shared catalog. Clients use the catalog's stable source-record IDs.}
+  {Two input paths feed the published outputs: dated discovery snapshots preserve mention and release evidence, while benchmark registries and model reports populate the shared catalog. Clients use the catalog's stable source-record IDs.}
   {fig:pipeline}
 
 Table~\ref{tab:reader-questions} describes the interfaces. Search and exports retain the full catalog; display filters apply to the current view.
@@ -260,7 +260,7 @@ An analyst or agent can try focused query variants, inspect a record's tasks and
 
 The census starts with every record in the rebuilt catalog index and reads its detail file. We count finite numeric score observations once by observation ID. Within each benchmark record, we count scored models by source model ID, preserving separately evaluated configurations, and cited documents by document ID. The global model registry uses its recorded identity links.
 
-Eligibility depends on the measurement a calculation needs. A declared percentage unit, known score direction, and numeric values within 0--100 permit a percentage-scale summary. The unit must be declared by the source; display multipliers are recorded separately. Comparing two scores also requires matching test versions, prompts, tools, attempts, and evaluators.
+Eligibility depends on the measurement a calculation needs. A declared percentage unit, known score direction, and numeric values within 0--100 permit a percentage-scale summary. Percentage units come from the source's own declaration; display multipliers are recorded separately.
 
 Date coverage counts valid recorded benchmark release dates. Score entries retain their own date basis, including model announcements and document publication; both serve as proxies for the evaluation date. Appendix~\ref{app:reproducibility} records the software revision and links to the input hashes, census script, and validation procedure.
 
@@ -503,7 +503,7 @@ The release data names no organization for \ReportNumber{\FindingsDocumentsUnkno
 \subsection{Reported Scores Across the Full Catalog}
 \label{sec:headroom}
 
-The score analysis retains all \ReportNumber{\FindingsRecords} records and their \ReportNumber{\CensusNumericScores} numeric observations. Table~\ref{tab:reported-headroom} summarizes scored-model coverage for each source. \FindingsBroadModelRecords{} benchmark records contain numeric scores for at least 100 distinct source model IDs.
+The score analysis covers \ReportNumber{\CensusNumericScores} numeric observations. Table~\ref{tab:reported-headroom} summarizes scored-model coverage for each source. \FindingsBroadModelRecords{} benchmark records contain numeric scores for at least 100 distinct source model IDs.
 
 \begin{center}
 \centering\small
@@ -526,7 +526,7 @@ Percentage headroom is 100 minus a record's highest value, computed when its uni
 
 \subsection{Date Evidence Across the Full Catalog}
 
-The date analysis also retains all \ReportNumber{\FindingsRecords} source records. Table~\ref{tab:score-coverage-gaps} separates benchmark release dates from dates attached to numeric observations. A known model announcement date serves as a source-record date proxy. Both date bases are proxies for the evaluation date.
+Table~\ref{tab:score-coverage-gaps} separates benchmark release dates from dates attached to numeric observations. A known model announcement date serves as a source-record date proxy. Both date bases are proxies for the evaluation date.
 
 \begin{center}
 \centering\small
@@ -548,7 +548,7 @@ The exported rows preserve each record's release date and the date basis of its 
 \section{Collection Settings and Display Filters}
 \label{app:operations}
 
-The \datacutoff{} snapshot records \ReportNumber{\FindingsRunFetched} fetched rows and \FindingsRunDeduplicated{} candidates after duplicate removal. Of these, \FindingsRunPublished{} qualified for publication and \FindingsRunRecommended{} met the recommendation threshold. These counts describe the discovery run. Published evidence retains source URLs, retrieval times, parser versions, identifiers, and payload checksums. Raw responses and credentials stay private.
+The \datacutoff{} snapshot records \ReportNumber{\FindingsRunFetched} fetched rows and \FindingsRunDeduplicated{} candidates after duplicate removal. Of these, \FindingsRunPublished{} entered the published snapshot and \FindingsRunRecommended{} met the recommendation threshold. These counts describe the discovery run. Published evidence retains source URLs, retrieval times, parser versions, identifiers, and payload checksums. Raw responses and credentials stay private.
 
 Benchmark Frontier, on the Leaderboard tab, requires a numeric score and excludes known pre-2024 benchmarks. It retains scored records with unknown dates or counts through labelled marks, and keeps unverified scales outside Pareto calculations. Its initial score cutoff is 70. The linked score ranking keeps its own date and numeric-score requirements. Catalog search, exports, and the census use the full population.
 
@@ -583,7 +583,7 @@ OpenAlex & Scholarly discovery metadata & Healthy; \FindingsConnectorOpenalex{} 
 \label{tab:healthy-connectors}
 \end{center}
 
-Table~\ref{tab:first-party-feeds} lists research and engineering feeds operated by the institutions being monitored. They can surface benchmark papers, datasets, model announcements, and engineering posts. The feed collector returned no records at the cutoff. Semantic Scholar returned a malformed payload, and Brave Search lacked an API key. These optional-route failures remain recorded in the snapshot. Searches restricted to an organization's website cover institutions that lack a verified feed.
+Table~\ref{tab:first-party-feeds} lists research and engineering feeds operated by the institutions being monitored. They can surface benchmark papers, datasets, model announcements, and engineering posts. The feed collector returned no records at the cutoff. Semantic Scholar returned a malformed payload, and Brave Search lacked an API key. The snapshot records these failures. Searches restricted to an organization's website cover institutions that lack a verified feed.
 
 \begin{center}
 \centering
@@ -679,7 +679,7 @@ ScienceBoard~\citep{sun2025scienceboard} & \xmark & \cmark & \xmark & Manual & \
 
 This revision uses the \href{https://github.com/ktwu01/benchmark-radar/releases/tag/v0.11.0}{Benchmark Radar v0.11.0 release} (software commit \gitcommit{}), with a discovery cutoff of \datacutoff{}. Registry inputs are the August snapshots recorded in that release. The release archive contains the catalog index, per-benchmark detail records, the document and model registries, discovery observations, and dated snapshots, with a SHA-256 hash for each input.
 
-The catalog census and the document, score, and date analyses are computed from the frozen archive. The software exporter supplies the catalog and discovery figure inputs. The catalog audit validates source-record IDs, score-observation uniqueness, and reconciliation of scored and unscored records; the findings audit computes the document, score, and date analyses. Both retain every source-record ID and record the input hashes. Their check modes recompute the outputs for comparison with the published values. Capability classification and its time trends come from separate generated inputs outside these checks. Schematic illustrations, supplied interface screenshots, and manually assembled related-work tables have their provenance described in their captions and accompanying text.
+The catalog census and the document, score, and date analyses are computed from the frozen archive. The software exporter supplies the catalog and discovery figure inputs. The catalog audit validates source-record IDs, score-observation uniqueness, and reconciliation of scored and unscored records; the findings audit computes the document, score, and date analyses. Both record the input hashes. Their check modes recompute the outputs for comparison with the published values. Capability classification and its time trends come from separate generated inputs outside these checks. Schematic illustrations, supplied interface screenshots, and manually assembled related-work tables have their provenance described in their captions and accompanying text.
 
 The paper repository's \href{https://github.com/ktwu01/benchmark-radar-paper/blob/44f4146b1f67ba82b9af71d93d80b249b8887e93/README.md\#reproduce-the-papers-numbers}{reproduction guide} identifies the scripts, input hashes, and validation procedure. Table~\ref{tab:access-artifacts} lists the access and citation resources. The project also provides a Citation File Format record \citep{smith2016,katz2021,cff}.
 
