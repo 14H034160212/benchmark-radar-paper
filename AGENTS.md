@@ -86,3 +86,13 @@ waive the questions for a task.
 - Do not restore `example-data.tex`, `scripts/audit_examples.py`, or
   `evidence/restored-examples.json`. Git history preserves the removed subset;
   `findings-data.tex` and the full-catalog exports are the current analysis.
+
+## Manuscript review
+
+- Do not write "X, not Y" or "X does not Y" contrasts aimed at an imagined
+  reader. State what X is. When X has a limit that matters, state the limit as
+  a property of X: "Scores count numeric observations", "Score dates use the
+  model announcement date as a proxy", "Facets overlap, so a record can count
+  toward several". Do not delete the fact; rewrite it in this form.
+- State real limitations once, in the Limitations section, in the same plain
+  form.
