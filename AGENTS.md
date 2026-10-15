@@ -65,3 +65,10 @@
 - Do not restore `example-data.tex`, `scripts/audit_examples.py`, or
   `evidence/restored-examples.json`. Git history preserves the removed subset;
   `findings-data.tex` and the full-catalog exports are the current analysis.
+
+## Manuscript review
+
+- Avoid self-defensive wording. State the method and the result; do not argue
+  in advance against an objection a reader has not raised. Remove sentences such
+  as "the second condition excludes the last, incomplete year" or "so the rise
+  does not come from the source mix" unless a reviewer asked the question.
