@@ -678,9 +678,7 @@ ScienceBoard~\citep{sun2025scienceboard} & \xmark & \cmark & \xmark & Manual & \
 \section{Reproducibility, Access, and Citation}
 \label{app:reproducibility}
 
-This revision uses the \href{https://github.com/ktwu01/benchmark-radar/releases/tag/v0.11.0}{Benchmark Radar v0.11.0 release} (software commit \gitcommit{}), with a discovery cutoff of \datacutoff{}. Registry inputs are the August snapshots recorded in that release. The release archive contains the catalog index, per-benchmark detail records, the document and model registries, discovery observations, and dated snapshots, with a SHA-256 hash for each input.
-
-The catalog census and the document, score, and date analyses are computed from the frozen archive. The software exporter supplies the catalog and discovery figure inputs. The catalog audit validates source-record IDs, score-observation uniqueness, and reconciliation of scored and unscored records; the findings audit computes the document, score, and date analyses. Both record the input hashes. Their check modes recompute the outputs for comparison with the published values. Capability classification and its time trends come from separate generated inputs outside these checks. Schematic illustrations, supplied interface screenshots, and manually assembled related-work tables have their provenance described in their captions and accompanying text.
+All reported numbers come from \href{https://github.com/ktwu01/benchmark-radar/releases/tag/v0.13.0}{Benchmark Radar release v0.13.0}, with discovery data through \datacutoff{}. Two audit scripts recompute the census and the document, score, and date analyses from that release's catalog, registries, and dated snapshots. Capability classification and its time trends are generated separately and are not covered by these scripts.
 
 The paper repository's \href{https://github.com/ktwu01/benchmark-radar-paper/blob/44f4146b1f67ba82b9af71d93d80b249b8887e93/README.md\#reproduce-the-papers-numbers}{reproduction guide} identifies the scripts, input hashes, and validation procedure. Table~\ref{tab:access-artifacts} lists the access and citation resources. The project also provides a Citation File Format record \citep{smith2016,katz2021,cff}.
 
@@ -691,7 +689,6 @@ The paper repository's \href{https://github.com/ktwu01/benchmark-radar-paper/blo
 \toprule
 \textbf{Artifact} & \textbf{Canonical or permanent location}\\
 \midrule
-Release data (v0.11.0) & \url{https://github.com/ktwu01/benchmark-radar/releases/tag/v0.11.0}\\
 Source code & \url{https://github.com/ktwu01/benchmark-radar}\\
 Dashboard & \url{https://benchmark-radar.org/}\\
 Dataset (Hugging Face) & \url{https://huggingface.co/datasets/ktwu01/benchmark-radar}\\
