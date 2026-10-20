@@ -23,6 +23,7 @@ EXPECTED_AUTHORS = {
     "Rudy Mizrahi Celekli": ["Gradia"],
     "Lazizbek Ravshanov": ["University of Cincinnati"],
     "Yaoliang Bian": ["Westlake University", "Shenzhen Loop Area Institute"],
+    "Xudong Han": ["University of Sussex"],
     "Lin Shi": ["Cornell Tech"],
 }
 LATEXML_NS = {"ltx": "http://dlmf.nist.gov/LaTeXML"}
