@@ -20,6 +20,7 @@ EXPECTED_AUTHORS = {
     "Junkai Wang": ["Tsinghua University"],
     "Wanghan Xu": ["Shanghai Jiao Tong University"],
     "Songyuanyi Lu": ["The University of Hong Kong"],
+    "Yixuan Li": ["Independent Researcher"],
     "Rudy Mizrahi Celekli": ["Gradia"],
     "Lazizbek Ravshanov": ["University of Cincinnati"],
     "Yaoliang Bian": ["Westlake University", "Shenzhen Loop Area Institute"],
