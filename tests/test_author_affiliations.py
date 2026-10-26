@@ -15,6 +15,7 @@ EXPECTED_AUTHORS = {
     "Wenjun Zhang": ["The University of Queensland"],
     "Junjie Zhou": ["Hangzhou Dianzi University"],
     "Pengqian Han": ["The University of Auckland"],
+    "Qiming Bao": ["The University of Auckland", "Xtracta"],
     "Ergan Shang": ["Carnegie Mellon University"],
     "Jiayu Wang": ["Xi'an Jiaotong University"],
     "Junkai Wang": ["Tsinghua University"],
